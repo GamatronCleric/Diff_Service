@@ -6,12 +6,14 @@ namespace Diff_Service.Test
     [TestFixture]
     public class DifferMethodsTest
     {
+        DifferMethods sut = new DifferMethods();
+
         [TestCase("AAAAAA==", "AAAAAA==", DiffResultType.Equals)]
         [TestCase("AAAAAA==", "AAA=", DiffResultType.SizeDoesNotMatch)]
         [TestCase("AAAAAA==", "AQABAQ==", DiffResultType.ContentDoesNotMatch)]
         public void AreInputsEqual_Test(string left, string right, DiffResultType resultType)
         {
-            var result = DifferMethods.AreInputsEqual(left, right);
+            var result = sut.AreInputsEqual(left, right);
             Assert.That(result, Is.EqualTo(resultType));
         }
 
@@ -24,7 +26,7 @@ namespace Diff_Service.Test
                 new Diff() { offset = 2, length = 2},
             };
 
-            var result = DifferMethods.ReportDiffs("AAAAAA==","AQABAQ==");
+            var result = sut.ReportDiffs("AAAAAA==","AQABAQ==");
             Assert.That(result, Is.EqualTo(expected));
         }     
     }

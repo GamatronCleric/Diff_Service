@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Diff_Service
 {
-    public static class DifferMethods         
+    public class DifferMethods         
     {
         /// <summary>
         /// This method will check if the input is equal and returns a specific enum value
@@ -13,7 +13,7 @@ namespace Diff_Service
         /// <param name="leftInput"></param>
         /// <param name="rightInput"></param>
         /// <returns></returns>
-        public static DiffResultType AreInputsEqual(string leftInput, string rightInput)
+        public DiffResultType AreInputsEqual(string leftInput, string rightInput)
         {
             byte[] leftDecoded = Convert.FromBase64String(leftInput);
             byte[] rightDecoded = Convert.FromBase64String(rightInput);
@@ -40,7 +40,7 @@ namespace Diff_Service
         /// <param name="leftInput"></param>
         /// <param name="rightInput"></param>
         /// <returns></returns>
-        public static List<Diff> ReportDiffs(string leftInput, string rightInput)
+        public List<Diff> ReportDiffs(string leftInput, string rightInput)
         {
             List<Diff> diffs = new List<Diff>();
             byte[] leftDecoded = Convert.FromBase64String(leftInput);

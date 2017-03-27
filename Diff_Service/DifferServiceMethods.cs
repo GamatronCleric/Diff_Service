@@ -11,6 +11,7 @@ namespace Diff_Service
         {
             try
             {
+                DBMethods dbMethods = new DBMethods();
                 int? inputId = CheckIdValue(id);
                 if (!inputId.HasValue || data.Data == null)
                 {
@@ -18,11 +19,11 @@ namespace Diff_Service
                 }
                 if (leftInput)
                 {
-                    DBMethods.AddOrUpdate(context, inputId.Value, data.Data);
+                    dbMethods.AddOrUpdate(context, inputId.Value, data.Data);
                 }
                 else
                 {
-                    DBMethods.AddOrUpdate(context, inputId.Value, null, data.Data);
+                    dbMethods.AddOrUpdate(context, inputId.Value, null, data.Data);
                 }
                 return HttpStatusCode.Created;
             }
@@ -41,16 +42,17 @@ namespace Diff_Service
                 {
                     throw new WebFaultException(HttpStatusCode.BadRequest);
                 }
-                Differ diff = DBMethods.GetDiffer(context, inputId.Value);
+                Differ diff = new DBMethods().GetDiffer(context, inputId.Value);
                 if (diff == null)
                 {
                     throw new WebFaultException(HttpStatusCode.NotFound);
                 }
                 OutputData output = new OutputData();
-                output.ResultType = DifferMethods.AreInputsEqual(diff.LeftInput, diff.RightInput).ToString();
+                DifferMethods differMethods = new DifferMethods();
+                output.ResultType = differMethods.AreInputsEqual(diff.LeftInput, diff.RightInput).ToString();
                 if (output.ResultType == DiffResultType.ContentDoesNotMatch.ToString())
                 {
-                    output.Diffs = DifferMethods.ReportDiffs(diff.LeftInput, diff.RightInput);
+                    output.Diffs = differMethods.ReportDiffs(diff.LeftInput, diff.RightInput);
                 }
                 return output;
             }

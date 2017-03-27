@@ -2,7 +2,7 @@
 
 namespace Diff_Service.Data
 {
-    public static class DBMethods
+    public class DBMethods
     {
         /// <summary>
         /// This method Adds or Updates a Differ record in the database.
@@ -11,7 +11,7 @@ namespace Diff_Service.Data
         /// <param name="id"></param>
         /// <param name="leftInput"></param>
         /// <param name="rightInput"></param>
-        public static void AddOrUpdate(DifferContext context, int id, 
+        public void AddOrUpdate(DifferContext context, int id, 
             string leftInput = null, string rightInput = null)
         {
             if (!context.Differs.Any(d => d.Id == id))
@@ -36,7 +36,7 @@ namespace Diff_Service.Data
         /// <param name="context"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Differ GetDiffer(DifferContext context, int id)
+        public Differ GetDiffer(DifferContext context, int id)
         {
             if (!context.Differs.Any(d => d.Id == id))
             {
