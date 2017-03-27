@@ -5,9 +5,9 @@ using System.ServiceModel.Web;
 
 namespace Diff_Service
 {
-    public static class DifferServiceMethods
+    public class DifferServiceMethods
     {
-        public static HttpStatusCode AddInput(string id, InputData data, bool leftInput, DifferContext context)
+        public HttpStatusCode AddInput(string id, InputData data, bool leftInput, DifferContext context)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Diff_Service
             }
         }
 
-        public static OutputData CheckInput(string id, DifferContext context)
+        public OutputData CheckInput(string id, DifferContext context)
         {
             try
             {
