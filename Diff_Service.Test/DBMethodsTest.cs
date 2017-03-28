@@ -7,31 +7,32 @@ namespace Diff_Service.Test
     [TestFixture]
     public class DBMethodsTest
     {
-        DBMethods sut = new DBMethods();
-
         [Test]
         public void GetDiffer_Test()
         {
-            DifferContext dbContext = new DifferContext();
-            // Clear table so each test has the same starting point.
-            dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [Differs]");
+            DifferContext testContext = new DifferContext();
+            testContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [Differs]");
+            testContext = new DifferContext();
 
-            dbContext.Differs.Add(new Differ() { LeftInput = "left", RightInput = "right" });
-            dbContext.SaveChanges();
-            Differ result = sut.GetDiffer(dbContext, 1);
+            DBMethods sut = new DBMethods(testContext);
 
-            Assert.That(result, Has.Property("Id").EqualTo(1) 
+            testContext.Differs.Add(new Differ() { LeftInput = "left", RightInput = "right" });
+            testContext.SaveChanges();
+            Differ result = sut.GetDiffer(1);
+
+            // Correct Differ
+            Assert.That(result, Has.Property("Id").EqualTo(1)
                 & Has.Property("LeftInput").EqualTo("left")
                 & Has.Property("RightInput").EqualTo("right"));
 
             // Non-existing Differ
-            result = sut.GetDiffer(dbContext, 2);
+            result = sut.GetDiffer(2);
             Assert.That(result, Is.EqualTo(null));
 
             // Incomplete Differ
-            dbContext.Differs.Add(new Differ() { LeftInput = null, RightInput = "right" });
-            dbContext.SaveChanges();
-            result = sut.GetDiffer(dbContext, 2);
+            testContext.Differs.Add(new Differ() { LeftInput = null, RightInput = "right" });
+            testContext.SaveChanges();
+            result = sut.GetDiffer(2);
             Assert.That(result, Is.EqualTo(null));
         }
 
@@ -39,31 +40,32 @@ namespace Diff_Service.Test
         [Test]
         public void AddOrUpdate_Test()
         {
-            DifferContext dbContext = new DifferContext();
-            // Clear table so each test has the same starting point.
-            dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [Differs]");
+            DifferContext testContext = new DifferContext();
+            testContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [Differs]");
+            testContext = new DifferContext();
+
+            DBMethods sut = new DBMethods(testContext);
 
             // Record with only Right data filled
-            sut.AddOrUpdate(dbContext, 1, null, "right!");
-            Differ result = dbContext.Differs.FirstOrDefault(d => d.Id == 1);
+            sut.AddOrUpdate(1, null, "right!");
+            Differ result = testContext.Differs.FirstOrDefault(d => d.Id == 1);
 
             Assert.That(result, Has.Property("Id").EqualTo(1)
                 & Has.Property("LeftInput").EqualTo(null) & Has.Property("RightInput").EqualTo("right!"));
 
             // Record with Left and Right data filled
-            sut.AddOrUpdate(dbContext, 1, "left!");
-            result = dbContext.Differs.FirstOrDefault(d => d.Id == 1);
+            sut.AddOrUpdate(1, "left!");
+            result = testContext.Differs.FirstOrDefault(d => d.Id == 1);
 
             Assert.That(result, Has.Property("Id").EqualTo(1)
                 & Has.Property("LeftInput").EqualTo("left!") & Has.Property("RightInput").EqualTo("right!"));
 
             // Record with Left and Right data filled
-            sut.AddOrUpdate(dbContext, 2, "left!");
-            result = dbContext.Differs.FirstOrDefault(d => d.Id == 2);
+            sut.AddOrUpdate(2, "left!");
+            result = testContext.Differs.FirstOrDefault(d => d.Id == 2);
 
             Assert.That(result, Has.Property("Id").EqualTo(2)
                 & Has.Property("LeftInput").EqualTo("left!") & Has.Property("RightInput").EqualTo(null));
-
         }
     }
 }

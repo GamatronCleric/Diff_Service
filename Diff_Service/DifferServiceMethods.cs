@@ -11,7 +11,7 @@ namespace Diff_Service
         {
             try
             {
-                DBMethods dbMethods = new DBMethods();
+                DBMethods dbMethods = new DBMethods(new DifferContext());
                 int? inputId = CheckIdValue(id);
                 if (!inputId.HasValue || data.Data == null)
                 {
@@ -19,11 +19,11 @@ namespace Diff_Service
                 }
                 if (leftInput)
                 {
-                    dbMethods.AddOrUpdate(new DifferContext(), inputId.Value, data.Data);
+                    dbMethods.AddOrUpdate(inputId.Value, data.Data);
                 }
                 else
                 {
-                    dbMethods.AddOrUpdate(new DifferContext(), inputId.Value, null, data.Data);
+                    dbMethods.AddOrUpdate(inputId.Value, null, data.Data);
                 }
                 return HttpStatusCode.Created;
             }
@@ -42,7 +42,7 @@ namespace Diff_Service
                 {
                     throw new WebFaultException(HttpStatusCode.BadRequest);
                 }
-                Differ diff = new DBMethods().GetDiffer(new DifferContext(), inputId.Value);
+                Differ diff = new DBMethods(new DifferContext()).GetDiffer(inputId.Value);
                 if (diff == null)
                 {
                     throw new WebFaultException(HttpStatusCode.NotFound);

@@ -2,7 +2,7 @@
 
 namespace Diff_Service.Data
 {
-    public class DifferContext : DbContext
+    public class DifferContext : DbContext, IDifferContext
     {
         public DbSet<Differ> Differs { get; set; }
     }

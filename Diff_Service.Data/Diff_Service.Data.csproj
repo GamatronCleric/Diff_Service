@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBMethods.cs" />
+    <Compile Include="IDifferContext.cs" />
     <Compile Include="Models\Differ.cs" />
     <Compile Include="DifferContext.cs" />
     <Compile Include="Migrations\201703222058079_Initial.cs" />

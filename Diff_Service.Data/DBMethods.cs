@@ -4,6 +4,13 @@ namespace Diff_Service.Data
 {
     public class DBMethods
     {
+        private IDifferContext _Context;
+
+        public DBMethods(IDifferContext context)
+        {
+            _Context = context;
+        }
+
         /// <summary>
         /// This method Adds or Updates a Differ record in the database.
         /// </summary>
@@ -11,23 +18,22 @@ namespace Diff_Service.Data
         /// <param name="id"></param>
         /// <param name="leftInput"></param>
         /// <param name="rightInput"></param>
-        public void AddOrUpdate(DifferContext context, int id, 
-            string leftInput = null, string rightInput = null)
+        public void AddOrUpdate(int id, string leftInput = null, string rightInput = null)
         {
-            if (!context.Differs.Any(d => d.Id == id))
+            if (!_Context.Differs.Any(d => d.Id == id))
             {
-                context.Differs.Add(new Differ() { LeftInput = leftInput, RightInput = rightInput });
+                _Context.Differs.Add(new Differ() { LeftInput = leftInput, RightInput = rightInput });
             }
             else
             {
-                Differ differ = context.Differs.First(d => d.Id == id);
+                Differ differ = _Context.Differs.First(d => d.Id == id);
                 leftInput = !string.IsNullOrEmpty(leftInput) ? differ.LeftInput = leftInput :
                 differ.LeftInput = differ.LeftInput;
 
                 rightInput = !string.IsNullOrEmpty(rightInput) ? differ.RightInput = rightInput : 
                 differ.RightInput = differ.RightInput;
             }
-            context.SaveChanges();
+            _Context.SaveChanges();
         }
 
         /// <summary>
@@ -36,15 +42,15 @@ namespace Diff_Service.Data
         /// <param name="context"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Differ GetDiffer(DifferContext context, int id)
+        public Differ GetDiffer(int id)
         {
-            if (!context.Differs.Any(d => d.Id == id))
+            if (!_Context.Differs.Any(d => d.Id == id))
             {
                 return null;
             }
             else
             {
-                Differ differ = context.Differs.First(d => d.Id == id);
+                Differ differ = _Context.Differs.First(d => d.Id == id);
                 if (string.IsNullOrEmpty(differ.LeftInput) || string.IsNullOrEmpty(differ.RightInput))
                 {
                     return null;
