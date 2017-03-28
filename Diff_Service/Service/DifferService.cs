@@ -16,7 +16,7 @@ namespace Diff_Service
         public HttpStatusCode AddLeftInput(string id, InputData data)
         {
             _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.AddInput(id, data, true, new DifferContext());
+            return _DifferServiceMethods.AddInput(id, data, true);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Diff_Service
         public HttpStatusCode AddRightInput(string id, InputData data)
         {
             _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.AddInput(id, data, false, new DifferContext());
+            return _DifferServiceMethods.AddInput(id, data, false);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Diff_Service
         public OutputData CheckInputById(string id)
         {
             _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.CheckInput(id, new DifferContext());
+            return _DifferServiceMethods.CheckInput(id);
         }
     }
 }

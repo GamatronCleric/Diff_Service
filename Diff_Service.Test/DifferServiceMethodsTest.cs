@@ -18,18 +18,18 @@ namespace Diff_Service.Test
 
             // Faulty Id
             var exception = Assert.Catch(() => sut.AddInput(null, new InputData()
-            { Data = "Q2FyZHNPZkhvdXNl" }, true, dbContext));
+            { Data = "Q2FyZHNPZkhvdXNl" }, true));
             Assert.NotNull(exception);
             Assert.IsInstanceOf<WebFaultException<string>>(exception);
 
             // Correct Id, No Data.
             exception = Assert.Catch(() => sut.AddInput("1", new InputData()
-            { }, true, dbContext));
+            { }, true));
             Assert.NotNull(exception);
             Assert.IsInstanceOf<WebFaultException<string>>(exception);
 
             // Correct Info.
-            var result = sut.AddInput("1", new InputData() { Data = "Q2FyZHNPZkhvdXNl" }, true, dbContext);
+            var result = sut.AddInput("1", new InputData() { Data = "Q2FyZHNPZkhvdXNl" }, true);
             Assert.That(result, Is.EqualTo(HttpStatusCode.Created));
         }
 
@@ -42,12 +42,12 @@ namespace Diff_Service.Test
             dbContext.Database.ExecuteSqlCommand("TRUNCATE TABLE [Differs]");
 
             // Faulty Id
-            var exception = Assert.Catch(() => sut.CheckInput("A", dbContext));
+            var exception = Assert.Catch(() => sut.CheckInput("A"));
             Assert.NotNull(exception);
             Assert.IsInstanceOf<WebFaultException>(exception);
 
             // No Differ found.
-            exception = Assert.Catch(() => sut.CheckInput("1", dbContext));
+            exception = Assert.Catch(() => sut.CheckInput("1"));
             Assert.NotNull(exception);
             Assert.IsInstanceOf<WebFaultException>(exception);
         }
@@ -62,19 +62,19 @@ namespace Diff_Service.Test
             //Correct Info (Equals).
             dbContext.Differs.Add(new Differ() { Id = 1, LeftInput = "AAAAAA==", RightInput = "AAAAAA==" });
             dbContext.SaveChanges();
-            var result = sut.CheckInput("1", dbContext);
+            var result = sut.CheckInput("1");
             Assert.That(result, Has.Property("ResultType").EqualTo("Equals")& Has.Property("Diffs").EqualTo(null));
 
             //Correct Info (Size does not match).
             dbContext.Differs.Add(new Differ() { Id = 2, LeftInput = "AAAAAA==", RightInput = "AAA=" });
             dbContext.SaveChanges();
-            result = sut.CheckInput("2", dbContext);
+            result = sut.CheckInput("2");
             Assert.That(result, Has.Property("ResultType").EqualTo("SizeDoesNotMatch") & Has.Property("Diffs").EqualTo(null));
 
             //Correct Info (Size does not match).
             dbContext.Differs.Add(new Differ() { Id = 3, LeftInput = "AAAAAA==", RightInput = "AQABAQ==" });
             dbContext.SaveChanges();
-            result = sut.CheckInput("3", dbContext);
+            result = sut.CheckInput("3");
             Assert.That(result, Has.Property("ResultType").EqualTo("ContentDoesNotMatch") 
                 & Has.Property("Diffs").EqualTo(new System.Collections.Generic.List<Diff>()
             {
