@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Diff_Service
+namespace Diff_Service.Models
 {
     public enum DiffResultType { Equals, SizeDoesNotMatch, ContentDoesNotMatch };
 
     public struct Diff
     {
-        public int length;
-        public int offset;
+        public int Length;
+        public int Offset;
     }
 
     [DataContract]

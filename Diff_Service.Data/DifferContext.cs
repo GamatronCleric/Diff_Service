@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using Diff_Service.Data.Models;
+using System.Data.Entity;
 
 namespace Diff_Service.Data
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diff_Service.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,7 +35,7 @@ namespace Diff_Service
 
 
         /// <summary>
-        /// This method returns a list of Diffs (offset and length of the difference).
+        /// This method returns a list of Diffs (Offset and Length of the difference).
         /// This method is only called when the content does not match and the content lengths are equal.
         /// </summary>
         /// <param name="leftInput"></param>
@@ -52,14 +53,14 @@ namespace Diff_Service
                 {
                     //Diff found
                     Diff diff;
-                    diff.offset = index;
+                    diff.Offset = index;
                     
                     //Loop until equal
                     while(index < leftDecoded.Length && leftDecoded[index] != rightDecoded[index])
                     {
                         index++;
                     }
-                    diff.length = index - diff.offset;
+                    diff.Length = index - diff.Offset;
 
                     diffs.Add(diff);
                 }

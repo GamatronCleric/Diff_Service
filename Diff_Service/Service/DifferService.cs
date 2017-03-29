@@ -1,11 +1,12 @@
-﻿using Diff_Service.Data;
+﻿using Diff_Service.Interface;
+using Diff_Service.Models;
 using System.Net;
 
-namespace Diff_Service
+namespace Diff_Service.Service
 {
     public class DifferService : IDifferService
     {
-        DifferServiceMethods _DifferServiceMethods;
+        DifferServiceMethods _differServiceMethods;
 
         /// <summary>
         /// This method adds the data for the left input to the database by calling the AddInput method.
@@ -15,8 +16,8 @@ namespace Diff_Service
         /// <returns></returns>
         public HttpStatusCode AddLeftInput(string id, InputData data)
         {
-            _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.AddInput(id, data, true);
+            _differServiceMethods = new DifferServiceMethods();
+            return _differServiceMethods.AddInput(id, data, true);
         }
 
         /// <summary>
@@ -27,8 +28,8 @@ namespace Diff_Service
         /// <returns></returns>
         public HttpStatusCode AddRightInput(string id, InputData data)
         {
-            _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.AddInput(id, data, false);
+            _differServiceMethods = new DifferServiceMethods();
+            return _differServiceMethods.AddInput(id, data, false);
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace Diff_Service
         /// <returns></returns>
         public OutputData CheckInputById(string id)
         {
-            _DifferServiceMethods = new DifferServiceMethods();
-            return _DifferServiceMethods.CheckInput(id);
+            _differServiceMethods = new DifferServiceMethods();
+            return _differServiceMethods.CheckInput(id);
         }
     }
 }

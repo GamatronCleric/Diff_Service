@@ -1,4 +1,4 @@
-﻿namespace Diff_Service
+﻿namespace Diff_Service.Data.Models
 {
     public class Differ
     {

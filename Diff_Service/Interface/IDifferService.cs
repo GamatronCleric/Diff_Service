@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using Diff_Service.Models;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
-namespace Diff_Service
+namespace Diff_Service.Interface
 {
     [ServiceContract]
     public interface IDifferService

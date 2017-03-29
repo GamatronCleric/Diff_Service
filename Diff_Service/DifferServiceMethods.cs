@@ -1,4 +1,6 @@
 ﻿using Diff_Service.Data;
+using Diff_Service.Data.Models;
+using Diff_Service.Models;
 using System;
 using System.Net;
 using System.ServiceModel.Web;
@@ -11,7 +13,7 @@ namespace Diff_Service
         {
             try
             {
-                DBMethods dbMethods = new DBMethods(new DifferContext());
+                DbMethods dbMethods = new DbMethods(new DifferContext());
                 int? inputId = CheckIdValue(id);
                 if (!inputId.HasValue || data.Data == null)
                 {
@@ -25,7 +27,11 @@ namespace Diff_Service
                 {
                     dbMethods.AddOrUpdate(inputId.Value, null, data.Data);
                 }
-                return HttpStatusCode.Created;
+                WebOperationContext ctx = WebOperationContext.Current;
+                if (ctx == null)
+                    return HttpStatusCode.Created;
+                ctx.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                return ctx.OutgoingResponse.StatusCode;
             }
             catch (Exception ex)
             {
@@ -42,7 +48,7 @@ namespace Diff_Service
                 {
                     throw new WebFaultException(HttpStatusCode.BadRequest);
                 }
-                Differ diff = new DBMethods(new DifferContext()).GetDiffer(inputId.Value);
+                Differ diff = new DbMethods(new DifferContext()).GetDiffer(inputId.Value);
                 if (diff == null)
                 {
                     throw new WebFaultException(HttpStatusCode.NotFound);
@@ -69,9 +75,9 @@ namespace Diff_Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private int? CheckIdValue(string id)
+        private static int? CheckIdValue(string id)
         {
-            int inputId = 0;
+            int inputId;
             if (string.IsNullOrEmpty(id) || !int.TryParse(id, out inputId))
                 return null;
 
