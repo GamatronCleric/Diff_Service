@@ -71,7 +71,7 @@ namespace Diff_Service.Test
             result = sut.CheckInput("2");
             Assert.That(result, Has.Property("ResultType").EqualTo("SizeDoesNotMatch") & Has.Property("Diffs").EqualTo(null));
 
-            //Correct Info (Size does not match).
+            //Correct Info (Content does not match).
             dbContext.Differs.Add(new Differ() { Id = 3, LeftInput = "AAAAAA==", RightInput = "AQABAQ==" });
             dbContext.SaveChanges();
             result = sut.CheckInput("3");

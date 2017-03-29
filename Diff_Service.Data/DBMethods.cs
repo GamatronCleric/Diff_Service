@@ -14,7 +14,6 @@ namespace Diff_Service.Data
         /// <summary>
         /// This method Adds or Updates a Differ record in the database.
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="id"></param>
         /// <param name="leftInput"></param>
         /// <param name="rightInput"></param>
@@ -39,7 +38,6 @@ namespace Diff_Service.Data
         /// <summary>
         /// This method retriefs a differ record from the database useing a specified Id.
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="id"></param>
         /// <returns></returns>
         public Differ GetDiffer(int id)

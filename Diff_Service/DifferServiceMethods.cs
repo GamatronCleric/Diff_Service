@@ -69,7 +69,7 @@ namespace Diff_Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private static int? CheckIdValue(string id)
+        private int? CheckIdValue(string id)
         {
             int inputId = 0;
             if (string.IsNullOrEmpty(id) || !int.TryParse(id, out inputId))
