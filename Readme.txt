@@ -1,4 +1,9 @@
+Written in Visual Studio Express 2017.
+Prerequisites: - Sql Server 2016 Express Edition Installed
+			   - Start Visual Studio as Administrator
+
 Start the DifferService.
+Set Diff_Service as startup Project (if this is not the case).
 
 Use a tool like Postman: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en
 to create the API calls which are required for this service.
